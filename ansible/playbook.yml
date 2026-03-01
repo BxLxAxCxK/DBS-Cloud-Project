@@ -1,0 +1,16 @@
+---
+- name: Install Docker for DBS Project
+  hosts: webserver
+  become: yes
+  tasks:
+    - name: Update apt and install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker starts on boot
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
