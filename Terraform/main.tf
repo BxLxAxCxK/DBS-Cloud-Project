@@ -2,12 +2,10 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-# 1. Automatically find your Default VPC 
 data "aws_vpc" "default" {
   default = true
 }
 
-# 2. Find the latest Ubuntu Image [cite: 14]
 data "aws_ami" "ubuntu" {
   most_recent = true
   filter {
@@ -17,11 +15,10 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
-# 3. Create Security Group and LINK to the Default VPC 
 resource "aws_security_group" "web_traffic" {
   name        = "allow_web_and_ssh"
   description = "Allow SSH and HTTP traffic"
-  vpc_id      = data.aws_vpc.default.id # <--- THIS FIXES THE ERROR 
+  vpc_id      = data.aws_vpc.default.id 
 
   ingress {
     from_port   = 22
@@ -47,7 +44,7 @@ resource "aws_security_group" "web_traffic" {
 
 resource "aws_instance" "my_server" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.micro" # Switched from t2.micro to t3.micro for Free Tier compatibility
+  instance_type          = "t3.micro" 
   vpc_security_group_ids = [aws_security_group.web_traffic.id]
 
   tags = {

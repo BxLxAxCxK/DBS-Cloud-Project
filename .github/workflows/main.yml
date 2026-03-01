@@ -28,6 +28,6 @@ jobs:
         env:
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-          ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --private-key private_key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > dbs-key.pem
+          chmod 600 dbs-key.pem
+          ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --private-key dbs-key.pem
